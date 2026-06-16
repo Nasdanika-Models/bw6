@@ -1,0 +1,134 @@
+@Ecore(nsURI="https://bw6.models.nasdanika.org", nsPrefix="org.nasdanika.models.bw6")
+@GenModel(
+    documentation="Xcore model for BW 6.x concepts.",
+    bundleManifest="false",
+    featureDelegation="Dynamic",
+    complianceLevel="21.0",
+    suppressGenModelAnnotations="false",
+    copyrightFields="false",
+    operationReflection="true",
+    importOrganizing="true"
+)
+package org.nasdanika.models.bw6
+
+annotation "http://www.eclipse.org/emf/2002/Ecore" as Ecore
+annotation "http://www.eclipse.org/emf/2002/GenModel" as GenModel
+
+/**
+ * The root element of a BW 6.x process file (.bwp).
+ * Corresponds to bpws:process in the WS-BPEL 2.0 namespace.
+ */
+class Process {
+    id String name
+    String targetNamespace
+    boolean exitOnStandardFault
+    boolean suppressJoinFailure
+    contains ProcessInfo info
+    contains ProcessInterface processInterface
+    String types
+    contains Import[] imports
+    contains PartnerLink[] partnerLinks keys name
+    contains Variable[] variables keys name
+    contains Scope scope
+}
+
+class ProcessInfo {
+    boolean callable
+    String createdBy
+    String creationDate
+    String modifiedBy
+    String modificationDate
+    String historySize
+    String flowModel
+    String poolIcon
+}
+
+class ProcessInterface {
+    String context
+    String input
+    String output
+}
+
+class Import {
+    String importType
+    String ^namespace
+    String location
+}
+
+class PartnerLink {
+    id String name
+    String partnerLinkType
+    String myRole
+    String partnerRole
+}
+
+class Variable {
+    id String name
+    String element
+    String messageType
+    String ^type
+    boolean internal
+    String parameter
+    String defaultValue
+}
+
+class Scope {
+    String name
+    contains Flow flow
+}
+
+class Flow {
+    String name
+    contains Link[] links keys name
+    contains Activity[] activities keys name
+}
+
+class Link {
+    id String name
+    String linkType
+    String label
+    refers Activity source opposite outgoingLinks
+    refers Activity target opposite incomingLinks
+}
+
+abstract class Activity {
+    id String name
+    String xpdlId
+    refers Link[] outgoingLinks opposite source
+    refers Link[] incomingLinks opposite target
+    contains Source[] sources
+    contains Target[] targets
+}
+
+class Source {
+    String linkName
+    String transitionCondition
+    String transitionConditionLanguage
+    refers Link link
+}
+
+class Target {
+    String linkName
+    refers Link link
+}
+
+class ActivityExtension extends Activity {
+    String inputVariable
+    String outputVariable
+    String expression
+    String expressionLanguage
+    String inputBindings
+    String config
+    String activityTypeId
+}
+
+class ReceiveEvent extends Activity {
+    boolean createInstance
+    int eventTimeout
+    String variable
+    String eventSource
+}
+
+class EmptyActivity extends Activity {
+    String constructor
+}
