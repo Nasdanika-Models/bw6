@@ -42,12 +42,12 @@ jobs:
           chmod u+x nsd          
           pwd
           ls ..
-          ./nsd xcore ../model/model/bw6.xcore doc --diagram=bw6.drawio --doc-stubs --doc-dir=../model/doc save ../model/bw6.xmi
+          ./nsd xcore ../model/model/bw.xcore doc --diagram=bw.drawio --doc-stubs --doc-dir=../model/doc save ../model/bw.xmi
       - name: Generate Ecore site
         working-directory: nsd-cli
         run: |
           ./nsd model ../model/root-action.yml labels site -r=-1 -F ../model/page-template.yml ../docs
-          cp bw6.drawio ../docs
+          cp bw.drawio ../docs
           cp -R ../images ../docs
           zip -r ../docs/doc-stubs.zip ../model/doc
           ls ../docs
