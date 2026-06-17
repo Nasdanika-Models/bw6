@@ -1,1 +1,7 @@
-target/
+/bin/
+/target/
+/samples/
+/.polyglot..META-INF_MANIFEST.MF
+/build.properties
+/plugin.properties
+/plugin.xml
